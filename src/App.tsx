@@ -1,18 +1,16 @@
-import './App.css'
-import Counter from './components/Counter'
+//import './App.css'
+import AddTaskForm from './components/AddTaskForm'
+import TaskList from './components/TaskList'
 
-interface CounterProps {
-  count: number,
-  setCount: (count: number) => void,
-  step: number
-}
+
 
 function App() {
 
 
   return (
     <>
-      <Counter />
+      <AddTaskForm />
+      <TaskList />
 
        
     </>
