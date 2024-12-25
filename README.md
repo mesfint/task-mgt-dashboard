@@ -1,3 +1,6 @@
+<i>This Personal project to update my skills on techs like, React, TS, RTL and Performance improvements </i>
+<i>This project can be concidered as a home task assignment for Frontend role</i>
+<i>I build the application from scratch, FEEL FREE TO PLay aROUND WITH CODE</i>
 # Build a Task Management Dashboard
 ##  Technical Requirements
 
