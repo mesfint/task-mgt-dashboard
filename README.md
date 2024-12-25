@@ -1,6 +1,6 @@
 <i>This is a Personal Project built from scratch to update my skills on techs like, React, TS, RTL , state management and Performance improvements </i>
 <i>Any one can take this project as a challenge for a home task assignment to Frontend developer's role</i>
-<i> FEEL FREE TO PLAY AROUND WITH CODE</i>
+<i> FEEL FREE TO PLAY AROUND WITH THE CODE.</i>
 
 # Build a Task Management Dashboard
     
