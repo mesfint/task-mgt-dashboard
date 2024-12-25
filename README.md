@@ -6,7 +6,7 @@
     
 ##    Create a simple Task Management Dashboard with the following features:
 
-    -    Task List: Display all tasks, categorized by status (To-Do, In Progress, Completed).
+    -    <b>Task List:</b> Display all tasks, categorized by status (To-Do, In Progress, Completed).
     -    Add Task: Allow users to add new tasks.
     -    Edit Task: Let users edit task details (e.g., title, description, and status).
     -    Delete Task: Remove tasks from the list.
