@@ -2,7 +2,6 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { Box, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React from 'react';
 import { Task } from "../types/types";
 
 
@@ -20,19 +19,24 @@ const other = {
   };
 
 const TaskList = ({tasks}:TasksProps) => {
-    const[grid,setGrid] = React.useState(false)
-    const [data,setData]  = React.useState<Task[]>(tasks || [])
-    console.log("Received tasks prop-List:", tasks); 
-    console.log("data",data)
+    //const[grid,setGrid] = React.useState(false)
+    //const [data,setData]  = React.useState<Task[]>(tasks || [])
 
-    React.useEffect(() => {
-      if (Array.isArray(tasks)) {
-        setData(tasks);
-      } else {
-        console.error("Tasks prop is not an array:", tasks);
-        setData([])
-      }
-    }, [tasks]);
+
+    if (!Array.isArray(tasks)) {
+      console.error("Tasks prop is not an array:", tasks);
+      return null; // Avoid rendering invalid tasks
+    }
+    
+
+    // React.useEffect(() => {
+    //   if (Array.isArray(tasks)) {
+    //     setData(tasks);
+    //   } else {
+    //     //console.error("Tasks prop is not an array:", tasks);
+    //     setData([])
+    //   }
+    // }, [tasks]);
     
 
 const shoGridView=()=>{
@@ -69,8 +73,10 @@ const shoGridView=()=>{
           { field: 'description', headerName: "Description", width: 300, hideable: false },
           { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
         ]}
-        rows={data}
-        {...other}
+        rows={tasks.map((task, index) => ({
+          ...task,
+          id: task.id ? task.id.toString() : index.toString(), // Fallback to index if id is missing
+        }))}
       />
     </Box>
     </>

@@ -27,7 +27,13 @@ export const dummyTasks:Task[] = [
 
 function App() {
   const[formData, setFormData]= React.useState({title:"",description:""})
-const [tasks,setTasks] = React.useState<Task[]>(dummyTasks || []);
+const [tasks, setTasks] = React.useState<Task[]>(() => {
+  const savedTasks = localStorage.getItem("tasks");
+  const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
+  return Array.isArray(cleanData) ? cleanData : [];
+
+  
+});
 
 console.log("Parent tasks state-App:", tasks);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,12 +53,16 @@ console.log("Parent tasks state-App:", tasks);
       
         // Update state with the new task
         setTasks((prev) => ([...prev, newTask ]));
-            // Make an API request or perform any necessary actions with the form data
-    console.log(tasks);
+       //Store Tasks in LS
 
     // Reset the form fields
     setFormData({ title: '', description: '' });
   },[formData]);
+
+  React.useEffect(()=>{
+    localStorage.setItem("tasks",JSON.stringify(tasks))     
+
+  },[tasks])
 
 
 

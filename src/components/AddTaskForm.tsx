@@ -20,6 +20,7 @@ const AddTaskForm = ({onAddTask,onChange,formData}:AddTaskProps) => {
         value={formData.title}
         onChange={onChange}
         name='title'
+        sx={{mr:2}}
         
         >
 
@@ -30,6 +31,7 @@ const AddTaskForm = ({onAddTask,onChange,formData}:AddTaskProps) => {
         onChange={onChange}
         value={formData.description}
         name='description'
+        sx={{ml:2}}
         
         >
 
