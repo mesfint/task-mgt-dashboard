@@ -1,3 +1,5 @@
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { Box, IconButton } from "@mui/material";
@@ -6,7 +8,8 @@ import { Task } from "../types/types";
 
 
 interface TasksProps{
-    tasks:Task[] 
+    tasks:Task[] ,
+    onDelete:(id:number)=>void
 }
 
 const other = {
@@ -18,7 +21,7 @@ const other = {
     
   };
 
-const TaskList = ({tasks}:TasksProps) => {
+const TaskList = ({tasks,onDelete}:TasksProps) => {
     //const[grid,setGrid] = React.useState(false)
     //const [data,setData]  = React.useState<Task[]>(tasks || [])
 
@@ -72,6 +75,8 @@ const shoGridView=()=>{
           { field: 'title', headerName: "Title", width: 150,sortable: false,filterable: false,hideable: false,},
           { field: 'description', headerName: "Description", width: 300, hideable: false },
           { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
+          { field: 'edit', headerName: "Edit", width: 120,sortable: false,renderCell:()=><EditOutlinedIcon sx={{color:"blue",cursor:"pointer"}}/> },
+          { field: 'delete', headerName: "Delete", width: 120,sortable: false,renderCell:(params)=><DeleteForeverOutlinedIcon  onClick={() => onDelete(Number(params.row.id))} sx={{color:"red",cursor:"pointer"}}/> },
         ]}
         rows={tasks.map((task, index) => ({
           ...task,

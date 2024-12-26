@@ -27,6 +27,7 @@ export const dummyTasks:Task[] = [
 
 function App() {
   const[formData, setFormData]= React.useState({title:"",description:""})
+  const [removeTasks, setRemoveTasks] = React.useState<number | null>(null)
 const [tasks, setTasks] = React.useState<Task[]>(() => {
   const savedTasks = localStorage.getItem("tasks");
   const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
@@ -64,12 +65,18 @@ console.log("Parent tasks state-App:", tasks);
 
   },[tasks])
 
-
+//delete tasks
+  const deleteTask=(id:number)=>{
+    const del = tasks.filter((task)=>task.id !==id)
+    setTasks(del)
+    setRemoveTasks(null)
+    
+  }
 
   return (
     <>
       <AddTaskForm onAddTask={handleSubmit} onChange={handleInputChange} formData={formData} />
-      <TaskList tasks={tasks}/>
+      <TaskList tasks={tasks} onDelete={deleteTask}/>
 
        
     </>
