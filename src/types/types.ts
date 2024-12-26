@@ -6,6 +6,3 @@ export interface Task{
     status?: "To-Do" | "In Progress" | "Completed"
 }
 
-export interface Tasks{
-    tasks:Task[]
-}

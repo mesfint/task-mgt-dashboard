@@ -1,54 +1,24 @@
 import { Box, Button, TextField } from "@mui/material"
-import { useState } from "react"
-import { Task } from "../types/types"
+import { ChangeEvent, FormEvent } from "react"
+
+interface AddTaskProps{
+  onAddTask:(e:FormEvent<HTMLFormElement>)=>void 
+  onChange:(e:ChangeEvent<HTMLInputElement>)=>void
+  formData:{title:string,description:string}
+}
 
 
-
-const AddTaskForm = () => {
-    const[formData, setFormData]= useState<Task>({
-        id:0,
-        title:"",
-        description:"",
-        status:'In Progress'
-
-    })
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
-      };
-    
-      const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    
-           const newTask: Task = {
-            id: Date.now(),
-             title: formData.title,
-             description: formData.description,
-             status: formData.status
-            }
-          
-            // Update state with the new task
-            setFormData((prevState) => ({
-                ...prevState,
-                newTask
-            }));
-                // Make an API request or perform any necessary actions with the form data
-        console.log(formData);
-    
-        // Reset the form fields
-        setFormData({ id:0,title: '', description: '', status:'In Progress' });
-      };
+const AddTaskForm = ({onAddTask,onChange,formData}:AddTaskProps) => {
 
   
-   
     return (
     <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", mt:20}}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onAddTask}>
         <TextField
         variant="outlined"
         label="title"
         value={formData.title}
-        onChange={handleInputChange}
+        onChange={onChange}
         name='title'
         
         >
@@ -57,7 +27,7 @@ const AddTaskForm = () => {
         <TextField
         variant="outlined"
         label="description"
-        onChange={handleInputChange}
+        onChange={onChange}
         value={formData.description}
         name='description'
         

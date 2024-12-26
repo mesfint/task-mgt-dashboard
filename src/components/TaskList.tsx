@@ -3,14 +3,16 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import { Box, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React from 'react';
-import { Tasks } from "../types/types";
+import { Task } from "../types/types";
 
 
 interface TasksProps{
-    tasks:Tasks 
+    tasks:Task[] 
 }
 
 const other = {
+    pageSize:5,
+    rowsPerPageOptions:[5],
     showCellVerticalBorder: true,
     showColumnVerticalBorder: true,
     checkboxSelection:true,
@@ -19,6 +21,19 @@ const other = {
 
 const TaskList = ({tasks}:TasksProps) => {
     const[grid,setGrid] = React.useState(false)
+    const [data,setData]  = React.useState<Task[]>(tasks || [])
+    console.log("Received tasks prop-List:", tasks); 
+    console.log("data",data)
+
+    React.useEffect(() => {
+      if (Array.isArray(tasks)) {
+        setData(tasks);
+      } else {
+        console.error("Tasks prop is not an array:", tasks);
+        setData([])
+      }
+    }, [tasks]);
+    
 
 const shoGridView=()=>{
     setGrid((prev)=>!prev)
@@ -49,17 +64,12 @@ const shoGridView=()=>{
     >
       <DataGrid
         columns={[
-          { field: 'id',  hideable: false },
-          {
-            field: 'title',
-            sortable: false,
-            filterable: false,
-            hideable: false,
-          },
-          { field: 'description', hideable: false },
-          { field: 'status', sortable: true,filterable: true,hideable: false },
+          { field: 'id', headerName: "ID", width: 90, hideable: false },
+          { field: 'title', headerName: "Title", width: 150,sortable: false,filterable: false,hideable: false,},
+          { field: 'description', headerName: "Description", width: 300, hideable: false },
+          { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
         ]}
-        rows={tasks}
+        rows={data}
         {...other}
       />
     </Box>
