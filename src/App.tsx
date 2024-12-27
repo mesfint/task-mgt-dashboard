@@ -3,6 +3,7 @@
 import React from 'react';
 import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import { Task } from './types/types';
 
 export const dummyTasks:Task[] = [
@@ -26,16 +27,22 @@ export const dummyTasks:Task[] = [
 
 
 function App() {
+
+  
   const[formData, setFormData]= React.useState({title:"",description:"",status:""})
   const [removeTasks, setRemoveTasks] = React.useState<number | null>(null)
   const [editingTaskId, setEditingTaskId] = React.useState<number | null>(null);
-    const [tasks, setTasks] = React.useState<Task[]>(() => {
-  const savedTasks = localStorage.getItem("tasks");
-  const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
-  return Array.isArray(cleanData) ? cleanData : [];
+    const [tasks, setTasks] = useLocalStorage<Task[]>("tasks",[]);
+    //(() => {
+     
+  // const savedTasks = localStorage.getItem("tasks");
+  // const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
+  // return Array.isArray(cleanData) ? cleanData : [];
+  
 
   
-});
+//});
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;

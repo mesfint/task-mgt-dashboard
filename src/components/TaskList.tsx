@@ -79,8 +79,8 @@ const shoGridView=()=>{
         columns={[
           { field: 'id', headerName: "ID", width: 90, hideable: false },
           { field: 'title', headerName: "Title", width: 150,sortable: false,filterable: false,hideable: false,},
-          { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
           { field: 'description', headerName: "Description", width: 300, hideable: false },
+          { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
           { 
             field: 'edit', 
             headerName: "Edit",
