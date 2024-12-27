@@ -9,7 +9,13 @@ import { Task } from "../types/types";
 
 interface TasksProps{
     tasks:Task[] ,
-    onDelete:(id:number)=>void
+    onDelete:(id:number)=>void,
+    onStartEditing:(id:number,title:string,description:string,status:string)=>void,
+    
+
+
+
+
 }
 
 const other = {
@@ -21,7 +27,7 @@ const other = {
     
   };
 
-const TaskList = ({tasks,onDelete}:TasksProps) => {
+const TaskList = ({tasks,onDelete,onStartEditing,onSaveTask,onCancle}:TasksProps) => {
     //const[grid,setGrid] = React.useState(false)
     //const [data,setData]  = React.useState<Task[]>(tasks || [])
 
@@ -73,14 +79,33 @@ const shoGridView=()=>{
         columns={[
           { field: 'id', headerName: "ID", width: 90, hideable: false },
           { field: 'title', headerName: "Title", width: 150,sortable: false,filterable: false,hideable: false,},
-          { field: 'description', headerName: "Description", width: 300, hideable: false },
           { field: 'status', headerName: "Status", width: 150,sortable: true,filterable: true,hideable: false },
-          { field: 'edit', headerName: "Edit", width: 120,sortable: false,renderCell:()=><EditOutlinedIcon sx={{color:"blue",cursor:"pointer"}}/> },
+          { field: 'description', headerName: "Description", width: 300, hideable: false },
+          { 
+            field: 'edit', 
+            headerName: "Edit",
+             width: 120,
+             sortable: false,
+             renderCell:(params)=>
+             <EditOutlinedIcon
+             onClick={() =>
+              onStartEditing(
+                Number(params.row.id),
+                params.row.title,
+                params.row.description,
+                params.row.status || ''
+              )
+            }
+              
+              sx={{color:"blue",cursor:"pointer"}}/> },
           { field: 'delete', headerName: "Delete", width: 120,sortable: false,renderCell:(params)=><DeleteForeverOutlinedIcon  onClick={() => onDelete(Number(params.row.id))} sx={{color:"red",cursor:"pointer"}}/> },
         ]}
         rows={tasks.map((task, index) => ({
           ...task,
           id: task.id ? task.id.toString() : index.toString(), // Fallback to index if id is missing
+          title: task.title,
+          description: task.description,
+          status: task.status,
         }))}
       />
     </Box>

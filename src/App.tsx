@@ -26,9 +26,10 @@ export const dummyTasks:Task[] = [
 
 
 function App() {
-  const[formData, setFormData]= React.useState({title:"",description:""})
+  const[formData, setFormData]= React.useState({title:"",description:"",status:""})
   const [removeTasks, setRemoveTasks] = React.useState<number | null>(null)
-const [tasks, setTasks] = React.useState<Task[]>(() => {
+  const [editingTaskId, setEditingTaskId] = React.useState<number | null>(null);
+    const [tasks, setTasks] = React.useState<Task[]>(() => {
   const savedTasks = localStorage.getItem("tasks");
   const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
   return Array.isArray(cleanData) ? cleanData : [];
@@ -36,11 +37,11 @@ const [tasks, setTasks] = React.useState<Task[]>(() => {
   
 });
 
-console.log("Parent tasks state-App:", tasks);
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
+  
 
   const handleSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +50,7 @@ console.log("Parent tasks state-App:", tasks);
         id: Date.now(),
          title: formData.title,
          description: formData.description,
-         status: 'To-Do'
+         status: formData.status
         }
       
         // Update state with the new task
@@ -57,13 +58,38 @@ console.log("Parent tasks state-App:", tasks);
        //Store Tasks in LS
 
     // Reset the form fields
-    setFormData({ title: '', description: '' });
+    setFormData({ title: '', description: '',status:'' });
   },[formData]);
 
   React.useEffect(()=>{
     localStorage.setItem("tasks",JSON.stringify(tasks))     
 
   },[tasks])
+
+  const startEditing = (id: number, title: string,description:string,status:string)=>{
+    setEditingTaskId(id);
+    //setEditingTask(task);
+    setFormData({ title, description,status });
+
+
+  }
+  //Update the Task state
+  const saveTask=()=>{
+    const updatedTasks = tasks.map((task) =>
+      task.id === editingTaskId
+        ? { ...task, title: formData.title, description: formData.description, status: formData.status }
+        : task
+    );
+    setTasks(updatedTasks);
+    setEditingTaskId(null);
+    setFormData({ title: "", description: "", status: "To-Do" });
+
+  }
+  const cancleEdit = ()=>{
+    setEditingTaskId(null);
+    setFormData({title:"", description:"",status:"TO-DO"})
+ 
+  }
 
 //delete tasks
   const deleteTask=(id:number)=>{
@@ -75,8 +101,23 @@ console.log("Parent tasks state-App:", tasks);
 
   return (
     <>
-      <AddTaskForm onAddTask={handleSubmit} onChange={handleInputChange} formData={formData} />
-      <TaskList tasks={tasks} onDelete={deleteTask}/>
+      <AddTaskForm
+      onAddTask={editingTaskId ? saveTask: handleSubmit}
+      onChange={handleInputChange}
+       formData={formData}
+       isEditing={editingTaskId !== null}
+       onCancle={cancleEdit}
+       
+
+       
+       />
+      <TaskList 
+      tasks={tasks}
+       onDelete={deleteTask}
+       onStartEditing={startEditing}
+ 
+       
+           />
 
        
     </>
