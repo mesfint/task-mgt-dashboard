@@ -6,22 +6,22 @@ import TaskList from './components/TaskList';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Task } from './types/types';
 
-export const dummyTasks:Task[] = [
-  {
-    id: 1,
-    title: "Complete React Context Integration",
-    description: "Implement Context API with useReducer for state management.",
-    status: "To-Do", // Other statuses: "In Progress", "Completed"
-  },
-  {
-    id: 2,
-    title: "Setup Unit Tests",
-    description: "Write tests for components using Jest and React Testing Library.",
-    status: "In Progress",
-  }
+// export const dummyTasks:Task[] = [
+//   {
+//     id: 1,
+//     title: "Complete React Context Integration",
+//     description: "Implement Context API with useReducer for state management.",
+//     status: "To-Do", // Other statuses: "In Progress", "Completed"
+//   },
+//   {
+//     id: 2,
+//     title: "Setup Unit Tests",
+//     description: "Write tests for components using Jest and React Testing Library.",
+//     status: "In Progress",
+//   }
  
 
-];
+// ];
 
 
 
@@ -33,15 +33,7 @@ function App() {
   const [removeTasks, setRemoveTasks] = React.useState<number | null>(null)
   const [editingTaskId, setEditingTaskId] = React.useState<number | null>(null);
     const [tasks, setTasks] = useLocalStorage<Task[]>("tasks",[]);
-    //(() => {
-     
-  // const savedTasks = localStorage.getItem("tasks");
-  // const cleanData = savedTasks ? JSON.parse(savedTasks) : [];
-  // return Array.isArray(cleanData) ? cleanData : [];
-  
-
-  
-//});
+    
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,9 +51,11 @@ function App() {
          description: formData.description,
          status: formData.status
         }
-      
+        if(formData.title.trim() && formData.description.trim()){
+
+          setTasks((prev) => ([...prev, newTask ]));
+        }
         // Update state with the new task
-        setTasks((prev) => ([...prev, newTask ]));
        //Store Tasks in LS
 
     // Reset the form fields

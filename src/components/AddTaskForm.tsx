@@ -20,6 +20,7 @@ const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:Add
     <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", mt:20}}>
         <form onSubmit={onAddTask}>
         <TextField
+        error={formData.title.length === 0}
         variant="outlined"
         label="title"
         value={formData.title}
@@ -31,12 +32,14 @@ const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:Add
 
         </TextField>
         <TextField
+         error={formData.description.length === 0}//validation
         variant="outlined"
         label="description"
         onChange={onChange}
         value={formData.description}
         name='description'
         sx={{ml:2}}
+
         
         >
 
