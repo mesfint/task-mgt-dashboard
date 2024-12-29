@@ -1,30 +1,55 @@
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { FormEvent } from "react";
-
-interface AddTaskProps{
-  onAddTask:(e:FormEvent<HTMLFormElement>)=>void 
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => void;
-  formData:{title:string,description:string,status:string}
-  isEditing:boolean,
-  onCancle:()=>void
-  onSave:()=>void,  
-}
+import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import React from "react";
+import { useTask } from '../hooks/useTasks';
 
 
-const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:AddTaskProps) => {
+
+
+const AddTaskForm = () => {
+  const{addTask,cancelEdit,saveTask,isEditing,editingTask} = useTask()
+  const [task, setTask] = React.useState(editingTask || { title: "", description: "", status: "" });
+
+ // Sync `editingTask` with the local form state
+ React.useEffect(() => {
+  if (isEditing && editingTask) {
+    setTask(editingTask);
+  }
+}, [editingTask, isEditing]);
+  
+
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setTask({ ...task, [name]: value });
+  };
+
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    if (isEditing) {
+      saveTask(task.title, task.description, task.status);
+    } else {
+      addTask(task.title, task.description, task.status);
+    }
+    setTask({ title: "", description: "", status: "" });
+
+  
+
+  }
 
   
     return (
     <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", mt:20}}>
-        <form onSubmit={onAddTask}>
+        <form onSubmit={handleSubmit}>
         <TextField
-        error={formData.title.length === 0}
+        error={task.title.length === 0}
         variant="outlined"
         label="title"
-        value={formData.title}
-        onChange={onChange}
+        value={task.title}
+        onChange={handleInputChange}
         name='title'
         sx={{mr:2}}
         
@@ -32,11 +57,11 @@ const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:Add
 
         </TextField>
         <TextField
-         error={formData.description.length === 0}//validation
+         error={task.description.length === 0}//validation
         variant="outlined"
         label="description"
-        onChange={onChange}
-        value={formData.description}
+        onChange={handleInputChange}
+        value={task.description}
         name='description'
         sx={{ml:2}}
 
@@ -49,10 +74,10 @@ const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:Add
            displayEmpty
            variant="outlined"
            sx={{ mr: 2,ml:2 ,pl:1}}
-          value={formData.status}
-          onChange={onChange}
+          value={task.status}
+          onChange={handleInputChange}
         >
-          <MenuItem value="to-to">To-Do</MenuItem>
+          <MenuItem value="To-Do">To-Do</MenuItem>
           <MenuItem value="In Progress">In-Progress</MenuItem>
           <MenuItem value="Completed">Completed</MenuItem>
         </Select>
@@ -62,7 +87,7 @@ const AddTaskForm = ({onAddTask,onChange,formData,isEditing,onCancle,onSave}:Add
 
         </Button>
         {isEditing && (
-          <Button variant="outlined" onClick={onCancle} sx={{ padding: 2, ml: 1 }}>
+          <Button variant="outlined" onClick={cancelEdit} sx={{ padding: 2, ml: 1 }}>
             Cancel
           </Button>
         )}

@@ -1,12 +1,12 @@
 //import './App.css'
 
-import React from 'react';
+import { Box, Typography } from '@mui/material';
 import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
-import { useLocalStorage } from './hooks/useLocalStorage';
-import { Task } from './types/types';
+import { TasksProvider } from "./context/TasksContext";
 
-// export const dummyTasks:Task[] = [
+
+
 //   {
 //     id: 1,
 //     title: "Complete React Context Integration",
@@ -28,100 +28,14 @@ import { Task } from './types/types';
 
 function App() {
 
-  
-  const[formData, setFormData]= React.useState({title:"",description:"",status:""})
-  const [removeTasks, setRemoveTasks] = React.useState<number | null>(null)
-  const [editingTaskId, setEditingTaskId] = React.useState<number | null>(null);
-    const [tasks, setTasks] = useLocalStorage<Task[]>("tasks",[]);
-    
-
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  
-
-  const handleSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-       const newTask: Task = {
-        id: Date.now(),
-         title: formData.title,
-         description: formData.description,
-         status: formData.status
-        }
-        if(formData.title.trim() && formData.description.trim()){
-
-          setTasks((prev) => ([...prev, newTask ]));
-        }
-        // Update state with the new task
-       //Store Tasks in LS
-
-    // Reset the form fields
-    setFormData({ title: '', description: '',status:'' });
-  },[formData]);
-
-  React.useEffect(()=>{
-    localStorage.setItem("tasks",JSON.stringify(tasks))     
-
-  },[tasks])
-
-  const startEditing = (id: number, title: string,description:string,status:string)=>{
-    setEditingTaskId(id);
-    //setEditingTask(task);
-    setFormData({ title, description,status });
-
-
-  }
-  //Update the Task state
-  const saveTask=()=>{
-    const updatedTasks = tasks.map((task) =>
-      task.id === editingTaskId
-        ? { ...task, title: formData.title, description: formData.description, status: formData.status }
-        : task
-    );
-    setTasks(updatedTasks);
-    setEditingTaskId(null);
-    setFormData({ title: "", description: "", status: "To-Do" });
-
-  }
-  const cancleEdit = ()=>{
-    setEditingTaskId(null);
-    setFormData({title:"", description:"",status:"TO-DO"})
- 
-  }
-
-//delete tasks
-  const deleteTask=(id:number)=>{
-    const del = tasks.filter((task)=>task.id !==id)
-    setTasks(del)
-    setRemoveTasks(null)
-    
-  }
-
   return (
-    <>
-      <AddTaskForm
-      onAddTask={editingTaskId ? saveTask: handleSubmit}
-      onChange={handleInputChange}
-       formData={formData}
-       isEditing={editingTaskId !== null}
-       onCancle={cancleEdit}
-       
-
-       
-       />
-      <TaskList 
-      tasks={tasks}
-       onDelete={deleteTask}
-       onStartEditing={startEditing}
- 
-       
-           />
-
-       
-    </>
+    <TasksProvider>
+    <Box style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
+      <Typography sx={{ textAlign: "center" }}>Task Manager</Typography>
+      <AddTaskForm />
+      <TaskList />
+    </Box>
+  </TasksProvider>
   )
 }
 
