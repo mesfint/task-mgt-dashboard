@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 
-export const useLocalStorage = <T>(key: string, initialValue: T) => {
+// Generic hook for LocalStorage with conditional initialization
+export const useLocalStorage = <T>(key: string, initialData: T) => {
   const [value, setValue] = useState<T>(() => {
-    try {
-      const savedValue = localStorage.getItem(key);
-      if (savedValue && savedValue !== "undefined") {
-        return JSON.parse(savedValue);
+    // Check if there’s data in localStorage
+    const savedData = localStorage.getItem(key);
+    if (savedData) {
+      try {
+        // Parse existing data
+        return JSON.parse(savedData);
+      } catch (error) {
+        console.error("Error parsing localStorage data:", error);
+        return initialData; // Fallback to initialData if parsing fails
       }
-      return initialValue;
-    } catch (error) {
-      console.error("Error parsing localStorage value:", error);
-      return initialValue;
+    } else {
+      // If no data exists, store the initialData
+      localStorage.setItem(key, JSON.stringify(initialData));
+      return initialData;
     }
   });
 
+  // Sync localStorage whenever the state changes
   useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error("Error saving to localStorage:", error);
-    }
+    localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
 
   return [value, setValue] as const;

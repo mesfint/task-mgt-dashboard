@@ -7,21 +7,7 @@ import { TasksProvider } from "./context/TasksContext";
 
 
 
-//   {
-//     id: 1,
-//     title: "Complete React Context Integration",
-//     description: "Implement Context API with useReducer for state management.",
-//     status: "To-Do", // Other statuses: "In Progress", "Completed"
-//   },
-//   {
-//     id: 2,
-//     title: "Setup Unit Tests",
-//     description: "Write tests for components using Jest and React Testing Library.",
-//     status: "In Progress",
-//   }
- 
 
-// ];
 
 
 

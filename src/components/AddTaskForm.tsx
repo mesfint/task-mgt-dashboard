@@ -8,21 +8,41 @@ import { useTask } from '../hooks/useTasks';
 
 
 const AddTaskForm = () => {
-  const{addTask,cancelEdit,saveTask,isEditing,editingTask} = useTask()
-  const [task, setTask] = React.useState(editingTask || { title: "", description: "", status: "" });
+  const{state, dispatch} = useTask()
+  const { editingTask, editingTaskId} = state
 
- // Sync `editingTask` with the local form state
- React.useEffect(() => {
-  if (isEditing && editingTask) {
-    setTask(editingTask);
-  }
-}, [editingTask, isEditing]);
+    // Local state for form fields, used when not editing
+    const [task, setTask] = React.useState({
+      title: "",
+      description: "",
+      status: "To-Do",
+    });
+     // Determine if we are editing or adding
+  const isEditing = editingTaskId !== null;
+
+  // Sync editing task with the form fields
+  React.useEffect(() => {
+    if (isEditing && editingTask) {
+      setTask({
+        title: editingTask.title,
+        description: editingTask.description,
+        status: editingTask.status,
+      });
+    } else {
+      setTask({ title: "", description: "", status: "To-Do" });
+    }
+  }, [isEditing, editingTask]);
+
   
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setTask({ ...task, [name]: value });
+    setTask((prev)=>({ ...prev, [name]: value }));
+  };
+
+  const handleStatusChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTask((prev) => ({ ...prev, status: event.target.value as string }));
   };
 
 
@@ -30,11 +50,30 @@ const AddTaskForm = () => {
     event.preventDefault();
     
     if (isEditing) {
-      saveTask(task.title, task.description, task.status);
+      // Dispatch save task action
+      dispatch({ 
+        type:"SAVE_TASK",
+         payload:{
+           id:editingTaskId,
+            title:task.title, 
+            description:task.description, 
+            status:task.status,
+          },
+        });
     } else {
-      addTask(task.title, task.description, task.status);
+      //dispatch add task action
+      dispatch({
+        type:"ADD_TASK",
+        payload:{
+         title: task.title, 
+         description:task.description,
+         status: task.status,
+        },
+      
+      });
     }
-    setTask({ title: "", description: "", status: "" });
+    //reset form after submission
+    dispatch({ type: "CANCEL_EDIT"});
 
   
 
@@ -47,7 +86,7 @@ const AddTaskForm = () => {
         <TextField
         error={task.title.length === 0}
         variant="outlined"
-        label="title"
+        label="Title"
         value={task.title}
         onChange={handleInputChange}
         name='title'
@@ -59,7 +98,7 @@ const AddTaskForm = () => {
         <TextField
          error={task.description.length === 0}//validation
         variant="outlined"
-        label="description"
+        label="Description"
         onChange={handleInputChange}
         value={task.description}
         name='description'
@@ -75,7 +114,7 @@ const AddTaskForm = () => {
            variant="outlined"
            sx={{ mr: 2,ml:2 ,pl:1}}
           value={task.status}
-          onChange={handleInputChange}
+          onChange={handleStatusChange}
         >
           <MenuItem value="To-Do">To-Do</MenuItem>
           <MenuItem value="In Progress">In-Progress</MenuItem>
@@ -87,7 +126,7 @@ const AddTaskForm = () => {
 
         </Button>
         {isEditing && (
-          <Button variant="outlined" onClick={cancelEdit} sx={{ padding: 2, ml: 1 }}>
+          <Button variant="outlined" onClick={()=>dispatch({type:"CANCEL_EDIT"})} sx={{ padding: 2, ml: 1 }}>
             Cancel
           </Button>
         )}

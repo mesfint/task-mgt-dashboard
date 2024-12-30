@@ -16,3 +16,22 @@ export interface TaskContextType{
     isEditing: boolean;
     editingTask: Task | null;
 }
+
+export type Action =
+  | { type: "ADD_TASK"; payload: { title: string; description: string; status: string } }
+  | { type: "DELETE_TASK"; payload: { id: number } }
+  | { type: "START_EDITING"; payload: { id: number; title: string; description: string; status: string } }
+  | { type: "SAVE_TASK"; payload: { id: number; title: string; description: string; status: string } }
+  | { type: "CANCEL_EDIT" }
+  
+
+  type State = {
+
+    tasks: Task[];
+  
+    editingTaskId: string | null;
+  
+    editingTask: Task | null;
+  
+  };
+  
