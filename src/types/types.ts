@@ -24,14 +24,10 @@ export type Action =
   | { type: "SAVE_TASK"; payload: { id: number; title: string; description: string; status: string } }
   | { type: "CANCEL_EDIT" }
   
-
-  type State = {
-
-    tasks: Task[];
-  
-    editingTaskId: string | null;
-  
+export interface State {
+    editingTaskId: number | null;
+    tasks: Task[],
     editingTask: Task | null;
-  
-  };
-  
+}
+
+

@@ -90,7 +90,14 @@ const AddTaskForm = () => {
         value={task.title}
         onChange={handleInputChange}
         name='title'
-        sx={{mr:2}}
+        //sx={{mr:2}}
+        fullWidth // Makes it responsive
+        sx={{
+          mb: 2, // Margin-bottom for spacing
+          mr:2,
+          maxWidth: { lg: "48%", md: "100%", sm: "100%", xs: "100%" }, // Adjust max width
+        }}
+          
         
         >
 
@@ -102,7 +109,11 @@ const AddTaskForm = () => {
         onChange={handleInputChange}
         value={task.description}
         name='description'
-        sx={{ml:2}}
+        fullWidth // Makes it responsive
+        sx={{
+          mb: 2, // Margin-bottom for spacing
+          maxWidth: { lg: "48%", md: "100%", sm: "100%", xs: "100%" }, // Adjust max width
+        }}
 
         
         >
@@ -112,7 +123,14 @@ const AddTaskForm = () => {
            name="status"
            displayEmpty
            variant="outlined"
-           sx={{ mr: 2,ml:2 ,pl:1}}
+           sx={{
+        
+            width: "100%", // Full width on small screens
+            maxWidth: { lg: "48%", md: "48%", sm: "48%", xs: "48%" }, // Adjust width
+            mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
+            mr:"6px",
+            fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
+          }}
           value={task.status}
           onChange={handleStatusChange}
         >
@@ -121,7 +139,20 @@ const AddTaskForm = () => {
           <MenuItem value="Completed">Completed</MenuItem>
         </Select>
 
-        <Button endIcon={ isEditing ? <EditIcon /> : <AddCircleOutlinedIcon />} type="submit" variant="contained" sx={{padding:2, ml:3}}>
+        <Button endIcon={ isEditing ? <EditIcon /> : <AddCircleOutlinedIcon />} 
+        type="submit"
+         variant="contained"
+         sx={{
+          width: "100%", // Full width on small screens
+          padding:"14px",
+          ml:"6px",
+          
+          maxWidth: { lg: "48%", md: "48%", sm: "48%", xs: "48%" }, // Adjust width
+          mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
+          fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
+        }}
+          
+          >
         {isEditing ? "Save" : "Add Task"}
 
         </Button>

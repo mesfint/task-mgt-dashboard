@@ -18,7 +18,7 @@ export const tasksReducer = (state:State,action:Action)=>{
             id: Date.now(),
              title:action.payload.title,
              description:action.payload.description,
-             status: action.payload.status || "To-Do"
+             status: action.payload.status
             };
     
             return  {tasks: [...state.tasks, newTask ]};
