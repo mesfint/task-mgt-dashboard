@@ -29,11 +29,13 @@ export const TasksProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [storedTasks, setStoredTasks] = useLocalStorage("tasks", initialData);
 
   // Initialize state with the reducer and stored tasks
-  const [state, dispatch] = useReducer(tasksReducer, {
+  const initialState: State = {
     tasks: storedTasks,
     editingTaskId: null,
     editingTask: null,
-  });
+  };
+
+  const [state, dispatch] = useReducer(tasksReducer, initialState);
 
   // Update localStorage whenever tasks change
   React.useEffect(() => {

@@ -1,20 +1,6 @@
 import { useEffect, useState } from "react";
 
 //  sample initial data
-const initialData = [
-  {
-    id: 1,
-    title: "Complete React Context Integration",
-    description: "Implement Context API with useReducer for state management.",
-    status: "To-Do",
-  },
-  {
-    id: 2,
-    title: "Setup Unit Tests",
-    description: "Write tests for components using Jest and React Testing Library.",
-    status: "In Progress",
-  },
-];
 
 // Generic hook for localStorage management
 export const useLocalStorage = <T>(key: string, initialData: T) => {

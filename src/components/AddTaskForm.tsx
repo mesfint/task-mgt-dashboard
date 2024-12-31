@@ -1,6 +1,6 @@
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import React from "react";
 import { useTask } from '../hooks/useTasks';
 
@@ -41,7 +41,7 @@ const AddTaskForm = () => {
     setTask((prev)=>({ ...prev, [name]: value }));
   };
 
-  const handleStatusChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleStatusChange = (event: SelectChangeEvent<string>) => {
     setTask((prev) => ({ ...prev, status: event.target.value as string }));
   };
 
@@ -126,9 +126,10 @@ const AddTaskForm = () => {
            sx={{
         
             width: "100%", // Full width on small screens
-            maxWidth: { lg: "48%", md: "48%", sm: "48%", xs: "48%" }, // Adjust width
+            maxWidth: { lg: "48%", md: "48%", sm: "100%", xs: "100%" }, // Adjust width
             mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
             mr:"6px",
+            mb:2,
             fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
           }}
           value={task.status}
@@ -143,12 +144,14 @@ const AddTaskForm = () => {
         type="submit"
          variant="contained"
          sx={{
-          width: "100%", // Full width on small screens
+          //width: "100%", // Full width on small screens
           padding:"14px",
-          ml:"6px",
-          
-          maxWidth: { lg: "48%", md: "48%", sm: "48%", xs: "48%" }, // Adjust width
-          mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
+          //ml:"6px",
+          width: isEditing ? { xs: "100%",sm:"100%", md: "48%" } : "100%",
+          transition: "width 0.3s ease", // Smooth transition when switching modes
+          maxWidth: { lg: "48%", md:  "48%", sm: "48%", xs: "100%" }, // Adjust width
+          //mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
+          //ml: { md: 2 }, // Margin-top for spacing on smaller screens
           fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
         }}
           
@@ -157,7 +160,16 @@ const AddTaskForm = () => {
 
         </Button>
         {isEditing && (
-          <Button variant="outlined" onClick={()=>dispatch({type:"CANCEL_EDIT"})} sx={{ padding: 2, ml: 1 }}>
+          <Button variant="outlined" onClick={()=>dispatch({type:"CANCEL_EDIT"})}  sx={{
+            width: "100%", // Full width on small screens
+            padding:"14px",
+            
+            
+            maxWidth: { lg: "48%", md: "48%", sm: "48%", xs: "100%" }, // Adjust width
+            mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
+            ml: { md: 2 }, // Margin-top for spacing on smaller screens
+            fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
+          }}>
             Cancel
           </Button>
         )}

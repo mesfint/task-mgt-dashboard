@@ -10,7 +10,7 @@ export const initialState: State = {
   
 
 
-export const tasksReducer = (state:State,action:Action)=>{
+export const tasksReducer = (state:State,action:Action):State=>{
     switch(action.type){
         case "ADD_TASK":
 
@@ -21,7 +21,10 @@ export const tasksReducer = (state:State,action:Action)=>{
              status: action.payload.status
             };
     
-            return  {tasks: [...state.tasks, newTask ]};
+            return  {
+                ...state,
+                tasks: [...state.tasks, newTask]
+            };
 
         case "START_EDITING":
                 return {

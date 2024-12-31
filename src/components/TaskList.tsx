@@ -12,14 +12,14 @@ import { useTask } from '../hooks/useTasks';
 
 
 
-const other = {
-    pageSize:5,
-    rowsPerPageOptions:[5],
-    showCellVerticalBorder: true,
-    showColumnVerticalBorder: true,
-    checkboxSelection:true,
+// const other = {
+//     pageSize:5,
+//     rowsPerPageOptions:[5],
+//     showCellVerticalBorder: true,
+//     showColumnVerticalBorder: true,
+//     checkboxSelection:true,
     
-  };
+//   };
 
 const TaskList = () => {
   const{state,dispatch} = useTask()
@@ -48,7 +48,7 @@ const TaskList = () => {
         </Box>
       
      {!gridView && (  
-      <Grid2 item xs={12} sm={6} md={4} lg={3}> 
+      <Grid2> 
         <Box
         sx={{
           display:"flex",
@@ -124,7 +124,7 @@ const TaskList = () => {
           }}
         >
           {state.tasks.map((task) => (
-          <Grid2 item xs={12} sm={6} md={4} lg={3} key={task.id}>
+          <Grid2 key={task.id}>
 
             <Card  sx={{  padding: 2 }}>
               <CardContent>
@@ -161,6 +161,7 @@ const TaskList = () => {
                           description: task.description,
                           status: task.status,
                         },
+                        
                       })
                     }
                   >
