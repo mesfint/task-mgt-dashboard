@@ -139,8 +139,9 @@ const TaskList = () => {
                 </Typography>
                 <CustomeTypography 
                    
-                fontSize={{lg:24,md:20,sm:16,xs:14}} 
-                sx={{color:"textSecondary"}}>
+                fontSize={{lg:24,md:20,sm:16,xs:14}}
+                variant="caption" 
+                sx={{color:"textSecondary" }}>
                 Status: {task.status}
                   </CustomeTypography>
               
