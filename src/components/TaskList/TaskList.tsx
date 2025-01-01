@@ -6,8 +6,8 @@ import { Box, Card, CardContent, Grid2, IconButton, Typography } from "@mui/mate
 
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
-import CustomeTypography from "../CustomeTypography";
-import { useTask } from '../hooks/useTasks';
+import CustomeTypography from "../../CustomeTypography";
+import { useTask } from '../../hooks/useTasks';
 
 
 

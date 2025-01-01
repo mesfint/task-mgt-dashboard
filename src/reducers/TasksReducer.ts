@@ -24,6 +24,7 @@ export const tasksReducer = (state:State,action:Action):State=>{
             return  {
                 ...state,
                 tasks: [...state.tasks, newTask]
+                
             };
 
         case "START_EDITING":

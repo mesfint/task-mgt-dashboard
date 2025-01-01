@@ -1,8 +1,8 @@
 //import './App.css'
 
 import { Box, Typography } from '@mui/material';
-import AddTaskForm from './components/AddTaskForm';
-import TaskList from './components/TaskList';
+import AddTaskForm from './components/AddTaskForm/AddTaskForm';
+import TaskList from './components/TaskList/TaskList';
 import { TasksProvider } from "./context/TasksContext";
 
 

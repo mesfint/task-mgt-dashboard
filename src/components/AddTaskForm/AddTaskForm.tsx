@@ -2,7 +2,7 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import React from "react";
-import { useTask } from '../hooks/useTasks';
+import { useTask } from '../../hooks/useTasks';
 
 
 
@@ -71,6 +71,8 @@ const AddTaskForm = () => {
         },
       
       });
+      setTask({ title: "", description: "", status: "To-Do" });
+
     }
     //reset form after submission
     dispatch({ type: "CANCEL_EDIT"});
@@ -128,7 +130,7 @@ const AddTaskForm = () => {
             width: "100%", // Full width on small screens
             maxWidth: { lg: "48%", md: "48%", sm: "100%", xs: "100%" }, // Adjust width
             mt: { xs: 1, sm: 0 }, // Margin-top for spacing on smaller screens
-            mr:"6px",
+            //mr:"6px",
             mb:2,
             fontSize: { lg: "20px", md: "18px", sm: "16px", xs: "14px" }, // Responsive font size
           }}
@@ -142,6 +144,7 @@ const AddTaskForm = () => {
 
         <Button endIcon={ isEditing ? <EditIcon /> : <AddCircleOutlinedIcon />} 
         type="submit"
+        role='button'
          variant="contained"
          sx={{
           //width: "100%", // Full width on small screens
