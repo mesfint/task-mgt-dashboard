@@ -23,7 +23,7 @@ export const tasksReducer = (state:State,action:Action):State=>{
     
             return  {
                 ...state,
-                tasks: [...state.tasks, newTask]
+                tasks: [newTask, ...state.tasks]
                 
             };
 
